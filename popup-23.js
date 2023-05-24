@@ -13,7 +13,7 @@
  */
 'use strict';
 //25-05-2023
-//1 object == 1 popup
+//1 object is 1 popup
 class Popup23 {
 
     constructor(data = {}) {
@@ -39,7 +39,7 @@ class Popup23 {
             item.addEventListener('click', e => {
                 e.preventDefault();
                 e.stopPropagation();
-                this.node.remove();
+                this.close();
                 return false;
             });
         });
@@ -74,6 +74,8 @@ class Popup23 {
         if (typeof data.help_title !== 'undefined' && data.help_title.length > 0) {
             if (typeof data.help_link !== 'undefined' && data.help_link.length > 0) {
                 this.set_title_info(`<a href="${data.help_link}" class="popup23-btn" target="_blank">${data.help_title}</a>`);
+            } else {
+                this.set_title_info(data.help_title);
             }
         }
 
@@ -89,7 +91,7 @@ class Popup23 {
             this.node.querySelector('.popup23').style.left = data.left + '%';
         }
 
-        if (typeof data.left !== 'undefined') {
+        if (typeof data.right !== 'undefined') {
             this.node.querySelector('.popup23').style.right = data.right + '%';
         }
 
@@ -139,11 +141,7 @@ class Popup23 {
     }
 
     close() {
-        if (this.is_custom_node) {
-            this.node.style.display = 'none';
-        } else {
-            this.node.remove();
-        }
+        this.node.remove();
     }
 
     create_id(prefix = '') {
@@ -171,3 +169,4 @@ class Popup23 {
         return this.node.querySelector('.popup23-inner-content').offsetHeight - 50;
     }
 }
+
