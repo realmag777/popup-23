@@ -12,18 +12,6 @@
  * MIT license - https://en.wikipedia.org/wiki/MIT_License
  */
 
-.popup23-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    min-height: 360px;
-    background: black;
-    opacity: .7;
-    z-index: 15000;
-}
-
 .popup23 {
     position: fixed;
     top: 50px;
@@ -49,14 +37,26 @@
     }
 }
 
-.popup23-inner-header {
+.popup23-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    min-height: 360px;
+    background: black;
+    opacity: .7;
+    z-index: 15000;
+}
+
+.popup23-header {
     height: 50px;
     border-bottom: 1px solid #dfdfdf;
     box-shadow: 0 4px 4px -4px rgba(0, 0, 0, 0.1);
     position: relative;
 }
 
-.popup23-inner-footer {
+.popup23-footer {
     border-top: 1px solid #dfdfdf;
     box-shadow: inset 0 4px 4px -4px rgba(0, 0, 0, 0.1);
     position: absolute;
@@ -69,11 +69,7 @@
     padding: 5px;
 }
 
-.popup23 .popup23-inner-footer .popup23-btn {
-    margin: 7px 0 0 7px;
-}
-
-.popup23-inner-content {
+.popup23-content-wrapper {
     position: absolute;
     overflow: auto !important;
     padding: 0;
@@ -83,7 +79,7 @@
     bottom: 50px;
 }
 
-.popup23-inner-header .popup23-close {
+.popup23-header .popup23-close {
     position: absolute;
     top: 0;
     right: 0;
@@ -94,12 +90,12 @@
     transition-duration: 0s;
 }
 
-.popup23-inner-header .popup23-close:focus {
+.popup23-header .popup23-close:focus {
     outline: none;
     box-shadow: none;
 }
 
-.popup23-inner-header .popup23-close::before {
+.popup23-header .popup23-close::before {
     left: 0;
     top: 0;
     width: 100%;
@@ -113,7 +109,7 @@
     transition: color .25s ease;
 }
 
-.popup23-inner-header .popup23-close:hover::before {
+.popup23-header .popup23-close:hover::before {
     color: #cb4a1f;
 }
 
@@ -129,10 +125,6 @@
     font-weight: bold;
 }
 
-.popup23-title span{
-    color: crimson;
-}
-
 .popup23-title-info {
     position: absolute;
     top: 10px;
@@ -144,12 +136,12 @@
     font-size: 15px;
 }
 
-.popup23-form-element-container {
+.popup23-content {
     padding: 8px;
     position: relative;
 }
 
-.popup23-form-element-container::after {
+.popup23-content::after {
     content: '.';
     display: block;
     overflow: hidden;
@@ -159,7 +151,7 @@
     clear: both;
 }
 
-.popup23-form-element-container {
+.popup23-content {
     height: 100%;
     padding: 18px 20px;
     box-sizing: border-box;
@@ -168,11 +160,11 @@
     clear: both;
 }
 
-.popup23-form-element-container > p {
+.popup23-content > p {
     color: #777;
 }
 
-.popup23-form-element-container:hover {
+.popup23-content:hover {
     background-color: #fcfcfc;
 }
 

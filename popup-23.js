@@ -29,7 +29,7 @@ class Popup23 {
         this.node = document.createElement('div');
         let div_id = this.create_id('popw-');
         this.node.setAttribute('id', div_id);
-        this.node.className = 'popup23-dynamic-popup-wrapper';
+        this.node.className = 'popup23-wrapper';
         this.close_word = typeof data.close_word !== 'undefined' ? data.close_word : 'Close';
         this.start_content = typeof data.start_content !== 'undefined' ? data.start_content : 'Loading ...';
         this.node.innerHTML = this.get_template();
@@ -63,7 +63,7 @@ class Popup23 {
             iframe.allow = typeof data.allow !== 'undefined' ? data.allow : '';
 
             iframe.src = data.iframe;
-            this.set_content('');
+            this.clear_content();
             this.append_content(iframe);
         }
 
@@ -101,7 +101,7 @@ class Popup23 {
             document.dispatchEvent(new CustomEvent(data.action, {detail: {...data, ... {popup: this}}}));
         }
 
-        this.node.querySelector('.popup23-inner-content').addEventListener('scroll', (e) => {
+        this.node.querySelector('.popup23-content-wrapper').addEventListener('scroll', (e) => {
             document.dispatchEvent(new CustomEvent('popup23-scrolling', {
                 detail: {
                     top: e.srcElement.scrollTop,
@@ -119,15 +119,15 @@ class Popup23 {
         return `
         <div class="popup23">
                <div class="popup23-inner">
-                   <div class="popup23-inner-header">
+                   <div class="popup23-header">
                        <h3 class="popup23-title">&nbsp;</h3>
                        <div class="popup23-title-info">&nbsp;</div>
                        <a href="javascript: void(0);" class="popup23-close"></a>
                    </div>
-                   <div class="popup23-inner-content">
-                       <div class="popup23-form-element-container">${this.start_content}</div>
+                   <div class="popup23-content-wrapper">
+                       <div class="popup23-content">${this.start_content}</div>
                    </div>
-                   <div class="popup23-inner-footer">
+                   <div class="popup23-footer">
                        <a href="javascript: void(0);" class="button popup23-footer-button-close">${this.close_word}</a>
                    </div>
                </div>
@@ -154,16 +154,21 @@ class Popup23 {
     }
 
     set_content(content) {
-        this.node.querySelector('.popup23-form-element-container').innerHTML = content;
-        document.dispatchEvent(new CustomEvent('popup23-popup-smth-loaded', {detail: {popup: this, content: content}}));
+        this.node.querySelector('.popup23-content').innerHTML = content;
+        document.dispatchEvent(new CustomEvent('popup23-set-content', {detail: {popup: this, content: content}}));
+    }
+
+    clear_content(content = '') {
+        this.node.querySelector('.popup23-content').innerHTML = content;
+        document.dispatchEvent(new CustomEvent('popup23-clear-content', {detail: {popup: this, content: content}}));
     }
 
     append_content(node) {
-        this.node.querySelector('.popup23-form-element-container').appendChild(node);
+        this.node.querySelector('.popup23-content').appendChild(node);
     }
 
     get_content_area_height() {
-        return this.node.querySelector('.popup23-inner-content').offsetHeight - 50;
+        return this.node.querySelector('.popup23-content-wrapper').offsetHeight - 50;
     }
 }
 
