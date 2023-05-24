@@ -12,7 +12,7 @@
  * MIT license - https://en.wikipedia.org/wiki/MIT_License
  */
 
-.woot-modal-backdrop {
+.popup23-modal-backdrop {
     position: fixed;
     top: 0;
     left: 0;
@@ -24,7 +24,7 @@
     z-index: 15000;
 }
 
-.woot-modal {
+.popup23-modal {
     position: fixed;
     top: 50px;
     left: 10%;
@@ -35,10 +35,10 @@
     min-width: 320px;
     overflow: auto;
     bottom: 50px;
-    animation: woot_modal_pop 0.45s 1 cubic-bezier(0.175, 0.885, 0.320, 1.275);
+    animation: popup23_modal_pop 0.45s 1 cubic-bezier(0.175, 0.885, 0.320, 1.275);
 }
 
-@-webkit-keyframes woot_modal_pop {
+@-webkit-keyframes popup23_modal_pop {
     0%   {
         -webkit-transform:scale(0.8);
         opacity:0;
@@ -48,7 +48,7 @@
         opacity:1;
     }
 }
-@-moz-keyframes woot_modal_pop {
+@-moz-keyframes popup23_modal_pop {
     0%   {
         -moz-transform:scale(0.8);
         opacity:0;
@@ -58,7 +58,7 @@
         opacity:1;
     }
 }
-@-o-keyframes woot_modal_pop {
+@-o-keyframes popup23_modal_pop {
     0%   {
         -o-transform:scale(0.8);
         opacity:0;
@@ -68,7 +68,7 @@
         opacity:1;
     }
 }
-@keyframes woot_modal_pop {
+@keyframes popup23_modal_pop {
     0%   {
         transform:scale(0.8);
         opacity:0;
@@ -79,14 +79,14 @@
     }
 }
 
-.woot-modal-inner-header {
+.popup23-modal-inner-header {
     height: 50px;
     border-bottom: 1px solid #dfdfdf;
     box-shadow: 0 4px 4px -4px rgba(0, 0, 0, 0.1);
     position: relative;
 }
 
-.woot-modal-inner-footer {
+.popup23-modal-inner-footer {
     height: 50px;
     border-top: 1px solid #dfdfdf;
     box-shadow: inset 0 4px 4px -4px rgba(0, 0, 0, 0.1);
@@ -100,11 +100,11 @@
     padding: 5px 0 0 5px;
 }
 
-.woot-modal .woot-modal-inner-footer .woot-btn {
+.popup23-modal .popup23-modal-inner-footer .popup23-btn {
     margin: 7px 0 0 7px;
 }
 
-.woot-modal-inner-content {
+.popup23-modal-inner-content {
     position: absolute;
     overflow: auto !important;
     padding: 0;
@@ -114,7 +114,7 @@
     bottom: 50px;
 }
 
-.woot-modal-inner-header .woot-modal-close {
+.popup23-modal-inner-header .popup23-modal-close {
     position: absolute;
     top: 0;
     right: 0;
@@ -127,12 +127,12 @@
     transition-duration: 0s;
 }
 
-.woot-modal-inner-header .woot-modal-close:focus {
+.popup23-modal-inner-header .popup23-modal-close:focus {
     outline: none;
     box-shadow: none;
 }
 
-.woot-modal-inner-header .woot-modal-close::before {
+.popup23-modal-inner-header .popup23-modal-close::before {
     left: 0;
     top: 0;
     width: 100%;
@@ -147,11 +147,11 @@
     transition: color .25s ease;
 }
 
-.woot-modal-inner-header .woot-modal-close:hover::before {
+.popup23-modal-inner-header .popup23-modal-close:hover::before {
     color: #cb4a1f;
 }
 
-.woot-modal-title {
+.popup23-modal-title {
     position: absolute;
     top: 0;
     margin: 0;
@@ -163,11 +163,11 @@
     font-weight: bold;
 }
 
-.woot-modal-title span{
+.popup23-modal-title span{
     color: crimson;
 }
 
-.woot-modal-title-info {
+.popup23-modal-title-info {
     position: absolute;
     top: 10px;
     right: 44px;
@@ -178,12 +178,12 @@
     font-size: 15px;
 }
 
-.woot-form-element-container {
+.popup23-form-element-container {
     padding: 8px;
     position: relative;
 }
 
-.woot-form-element-container::after {
+.popup23-form-element-container::after {
     content: '.';
     display: block;
     overflow: hidden;
@@ -193,7 +193,7 @@
     clear: both;
 }
 
-.woot-form-element-container {
+.popup23-form-element-container {
     padding: 18px 20px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -204,20 +204,20 @@
     clear: both;
 }
 
-.woot-form-element-container > p {
+.popup23-form-element-container > p {
     color: #777;
 }
 
-.woot-form-element-container:hover {
+.popup23-form-element-container:hover {
     background-color: #fcfcfc;
 }
 
-.woot-iframe-in-popup{
+.popup23-iframe-in-popup{
     border: 0;
     position: relative;
     width: 100%;
 }
 
-.woot-content-in-popup{
+.popup23-content-in-popup{
     color: #333;
 }

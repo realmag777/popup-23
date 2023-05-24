@@ -29,13 +29,13 @@ class Popup23 {
         this.node = document.createElement('div');
         let div_id = this.create_id('popw-');
         this.node.setAttribute('id', div_id);
-        this.node.className = 'woot-dynamic-popup-wrapper';
+        this.node.className = 'popup23-dynamic-popup-wrapper';
         this.node.innerHTML = this.get_template();
         document.querySelector('body').appendChild(this.node);
-        this.node.querySelector('.woot-modal').style.zIndex = Popup23.z_index;
-        this.node.querySelector('.woot-modal-backdrop').style.zIndex = Popup23.z_index - 1;
+        this.node.querySelector('.popup23-modal').style.zIndex = Popup23.z_index;
+        this.node.querySelector('.popup23-modal-backdrop').style.zIndex = Popup23.z_index - 1;
 
-        this.node.querySelectorAll('.woot-modal-close, .woot-modal-button-close').forEach(item => {
+        this.node.querySelectorAll('.popup23-modal-close, .popup23-modal-button-close').forEach(item => {
             item.addEventListener('click', e => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -49,7 +49,7 @@ class Popup23 {
 
         if (typeof data.iframe !== 'undefined' && data.iframe.length > 0) {
             let iframe = document.createElement('iframe');
-            iframe.className = 'woot-iframe-in-popup';
+            iframe.className = 'popup23-iframe-in-popup';
 
             if (typeof data.height !== 'undefined') {
                 iframe.height = data.height;
@@ -74,24 +74,24 @@ class Popup23 {
 
         if (typeof data.help_title !== 'undefined' && data.help_title.length > 0) {
             if (typeof data.help_link !== 'undefined' && data.help_link.length > 0) {
-                this.set_title_info(`<a href="${data.help_link}" class="woot-btn" target="_blank">${data.help_title}</a>`);
+                this.set_title_info(`<a href="${data.help_link}" class="popup23-btn" target="_blank">${data.help_title}</a>`);
             }
         }
 
         if (typeof data.width !== 'undefined') {
-            this.node.querySelector('.woot-modal').style.maxWidth = data.width + 'px';
+            this.node.querySelector('.popup23-modal').style.maxWidth = data.width + 'px';
         }
 
         if (typeof data.height !== 'undefined') {
-            this.node.querySelector('.woot-modal').style.maxHeight = data.height + 'px';
+            this.node.querySelector('.popup23-modal').style.maxHeight = data.height + 'px';
         }
 
         if (typeof data.left !== 'undefined') {
-            this.node.querySelector('.woot-modal').style.left = data.left + '%';
+            this.node.querySelector('.popup23-modal').style.left = data.left + '%';
         }
 
         if (typeof data.left !== 'undefined') {
-            this.node.querySelector('.woot-modal').style.right = data.right + '%';
+            this.node.querySelector('.popup23-modal').style.right = data.right + '%';
         }
 
         if (typeof data.action !== 'undefined' && data.action.length > 0) {
@@ -101,7 +101,7 @@ class Popup23 {
 
         //***
 
-        this.node.querySelector('.woot-modal-inner-content').addEventListener('scroll', (e) => {
+        this.node.querySelector('.popup23-modal-inner-content').addEventListener('scroll', (e) => {
             document.dispatchEvent(new CustomEvent('popup23-scrolling', {
                 detail: {
                     top: e.srcElement.scrollTop,
@@ -119,23 +119,23 @@ class Popup23 {
 
     get_template() {
         return `
-        <div class="woot-modal">
-               <div class="woot-modal-inner">
-                   <div class="woot-modal-inner-header">
-                       <h3 class="woot-modal-title">&nbsp;</h3>
-                       <div class="woot-modal-title-info">&nbsp;</div>
-                       <a href="javascript: void(0);" class="woot-modal-close"></a>
+        <div class="popup23-modal">
+               <div class="popup23-modal-inner">
+                   <div class="popup23-modal-inner-header">
+                       <h3 class="popup23-modal-title">&nbsp;</h3>
+                       <div class="popup23-modal-title-info">&nbsp;</div>
+                       <a href="javascript: void(0);" class="popup23-modal-close"></a>
                    </div>
-                   <div class="woot-modal-inner-content">
-                       <div class="woot-form-element-container">Loading ...</div>
+                   <div class="popup23-modal-inner-content">
+                       <div class="popup23-form-element-container">Loading ...</div>
                    </div>
-                   <div class="woot-modal-inner-footer">
-                       <a href="javascript: void(0);" class="btn btn-big btn-blue woot-modal-button-close">Close</a>
+                   <div class="popup23-modal-inner-footer">
+                       <a href="javascript: void(0);" class="btn btn-big btn-blue popup23-modal-button-close">Close</a>
                    </div>
                </div>
            </div>
 
-        <div class="woot-modal-backdrop"></div>
+        <div class="popup23-modal-backdrop"></div>
     `;
     }
 
@@ -152,23 +152,23 @@ class Popup23 {
     }
 
     set_title(title) {
-        this.node.querySelector('.woot-modal-title').innerHTML = title;
+        this.node.querySelector('.popup23-modal-title').innerHTML = title;
     }
 
     set_title_info(info) {
-        this.node.querySelector('.woot-modal-title-info').innerHTML = info;
+        this.node.querySelector('.popup23-modal-title-info').innerHTML = info;
     }
 
     set_content(content) {
-        this.node.querySelector('.woot-form-element-container').innerHTML = content;
-        document.dispatchEvent(new CustomEvent('woot-popup-smth-loaded', {detail: {popup: this, content: content}}));
+        this.node.querySelector('.popup23-form-element-container').innerHTML = content;
+        document.dispatchEvent(new CustomEvent('popup23-popup-smth-loaded', {detail: {popup: this, content: content}}));
     }
 
     append_content(node) {
-        this.node.querySelector('.woot-form-element-container').appendChild(node);
+        this.node.querySelector('.popup23-form-element-container').appendChild(node);
     }
 
     get_content_area_height() {
-        return this.node.querySelector('.woot-modal-inner-content').offsetHeight - 50;
+        return this.node.querySelector('.popup23-modal-inner-content').offsetHeight - 50;
     }
 }
