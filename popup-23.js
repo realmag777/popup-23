@@ -30,6 +30,8 @@ class Popup23 {
         let div_id = this.create_id('popw-');
         this.node.setAttribute('id', div_id);
         this.node.className = 'popup23-dynamic-popup-wrapper';
+        this.close_word = typeof data.close_word !== 'undefined' ? data.close_word : 'Close';
+        this.start_content = typeof data.start_content !== 'undefined' ? data.start_content : 'Loading ...';
         this.node.innerHTML = this.get_template();
         document.querySelector('body').appendChild(this.node);
         this.node.querySelector('.popup23').style.zIndex = Popup23.z_index;
@@ -99,9 +101,6 @@ class Popup23 {
             document.dispatchEvent(new CustomEvent(data.action, {detail: {...data, ... {popup: this}}}));
         }
 
-
-        //***
-
         this.node.querySelector('.popup23-inner-content').addEventListener('scroll', (e) => {
             document.dispatchEvent(new CustomEvent('popup23-scrolling', {
                 detail: {
@@ -109,8 +108,6 @@ class Popup23 {
                     self: this
                 }
             }));
-
-
         });
 
         //***
@@ -128,10 +125,10 @@ class Popup23 {
                        <a href="javascript: void(0);" class="popup23-close"></a>
                    </div>
                    <div class="popup23-inner-content">
-                       <div class="popup23-form-element-container">Loading ...</div>
+                       <div class="popup23-form-element-container">${this.start_content}</div>
                    </div>
                    <div class="popup23-inner-footer">
-                       <a href="javascript: void(0);" class="button popup23-footer-button-close">Close</a>
+                       <a href="javascript: void(0);" class="button popup23-footer-button-close">${this.close_word}</a>
                    </div>
                </div>
            </div>
