@@ -1,18 +1,18 @@
 /**
  * @summary     Popup23
  * @description pure javascript popup window
- * @version     1.0.1
+ * @version     1.0.5
  * @file        popup-23
  * @author      Rostislav Sofronov <realmag777>
  * @contact     https://pluginus.net/contact-us/
  * @github      https://github.com/realmag777/popup-23
- * @copyright   Copyright 2022 PluginUs.NET
+ * @copyright   Copyright 2023 PluginUs.NET
  *
  * This source file is free software, available under the following license:
  * MIT license - https://en.wikipedia.org/wiki/MIT_License
  */
 
-.popup23-modal-backdrop {
+.popup23-backdrop {
     position: fixed;
     top: 0;
     left: 0;
@@ -24,7 +24,7 @@
     z-index: 15000;
 }
 
-.popup23-modal {
+.popup23 {
     position: fixed;
     top: 50px;
     left: 10%;
@@ -38,36 +38,6 @@
     animation: popup23_modal_pop 0.45s 1 cubic-bezier(0.175, 0.885, 0.320, 1.275);
 }
 
-@-webkit-keyframes popup23_modal_pop {
-    0%   {
-        -webkit-transform:scale(0.8);
-        opacity:0;
-    }
-    100% {
-        -webkit-transform:scale(1);
-        opacity:1;
-    }
-}
-@-moz-keyframes popup23_modal_pop {
-    0%   {
-        -moz-transform:scale(0.8);
-        opacity:0;
-    }
-    100% {
-        -moz-transform:scale(1);
-        opacity:1;
-    }
-}
-@-o-keyframes popup23_modal_pop {
-    0%   {
-        -o-transform:scale(0.8);
-        opacity:0;
-    }
-    100% {
-        -o-transform:scale(1);
-        opacity:1;
-    }
-}
 @keyframes popup23_modal_pop {
     0%   {
         transform:scale(0.8);
@@ -79,15 +49,14 @@
     }
 }
 
-.popup23-modal-inner-header {
+.popup23-inner-header {
     height: 50px;
     border-bottom: 1px solid #dfdfdf;
     box-shadow: 0 4px 4px -4px rgba(0, 0, 0, 0.1);
     position: relative;
 }
 
-.popup23-modal-inner-footer {
-    height: 50px;
+.popup23-inner-footer {
     border-top: 1px solid #dfdfdf;
     box-shadow: inset 0 4px 4px -4px rgba(0, 0, 0, 0.1);
     position: absolute;
@@ -97,14 +66,14 @@
     overflow: hidden;
     clear: both;
     box-sizing: border-box;
-    padding: 5px 0 0 5px;
+    padding: 5px;
 }
 
-.popup23-modal .popup23-modal-inner-footer .popup23-btn {
+.popup23 .popup23-inner-footer .popup23-btn {
     margin: 7px 0 0 7px;
 }
 
-.popup23-modal-inner-content {
+.popup23-inner-content {
     position: absolute;
     overflow: auto !important;
     padding: 0;
@@ -114,7 +83,7 @@
     bottom: 50px;
 }
 
-.popup23-modal-inner-header .popup23-modal-close {
+.popup23-inner-header .popup23-close {
     position: absolute;
     top: 0;
     right: 0;
@@ -122,17 +91,15 @@
     width: 25px;
     line-height: 25px;
     outline: none;
-
-    -webkit-transition-duration: 0s;
     transition-duration: 0s;
 }
 
-.popup23-modal-inner-header .popup23-modal-close:focus {
+.popup23-inner-header .popup23-close:focus {
     outline: none;
     box-shadow: none;
 }
 
-.popup23-modal-inner-header .popup23-modal-close::before {
+.popup23-inner-header .popup23-close::before {
     left: 0;
     top: 0;
     width: 100%;
@@ -143,15 +110,14 @@
     display: inline-block;
     vertical-align: top;
     content: "🗙";
-    -webkit-transition: color .25s ease;
     transition: color .25s ease;
 }
 
-.popup23-modal-inner-header .popup23-modal-close:hover::before {
+.popup23-inner-header .popup23-close:hover::before {
     color: #cb4a1f;
 }
 
-.popup23-modal-title {
+.popup23-title {
     position: absolute;
     top: 0;
     margin: 0;
@@ -163,11 +129,11 @@
     font-weight: bold;
 }
 
-.popup23-modal-title span{
+.popup23-title span{
     color: crimson;
 }
 
-.popup23-modal-title-info {
+.popup23-title-info {
     position: absolute;
     top: 10px;
     right: 44px;
@@ -194,11 +160,9 @@
 }
 
 .popup23-form-element-container {
+    height: 100%;
     padding: 18px 20px;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
     box-sizing: border-box;
-    border-bottom: 1px solid #e1e1e1;
     position: relative;
     background-color: #fff;
     clear: both;
@@ -221,3 +185,8 @@
 .popup23-content-in-popup{
     color: #333;
 }
+
+.popup23-footer-button-close{
+    float: right;
+}
+
