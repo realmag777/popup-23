@@ -8,9 +8,9 @@
  * @github      https://github.com/realmag777/popup-23
  * @copyright   Copyright 2023 PluginUs.NET
  *
- * This source file is free software, available under the following license:
- *   MIT license - https://en.wikipedia.org/wiki/MIT_License
+ * This source file is free software, available under the following license: MIT license - https://en.wikipedia.org/wiki/MIT_License
  */
+
 'use strict';
 //25-05-2023
 //1 object is 1 popup
@@ -26,13 +26,15 @@ class Popup23 {
     }
 
     create(data = {}) {
+        this.data = data;
+        this.data.close_word = data.close_word ?? 'Close';
+        this.data.start_content = data.start_content ?? 'Loading ...';
+
         this.node = document.createElement('div');
-        let div_id = this.create_id('popw-');
-        this.node.setAttribute('id', div_id);
+        this.node.setAttribute('id', this.create_id());
         this.node.className = 'popup23-wrapper';
-        this.close_word = typeof data.close_word !== 'undefined' ? data.close_word : 'Close';
-        this.start_content = typeof data.start_content !== 'undefined' ? data.start_content : 'Loading ...';
         this.node.innerHTML = this.get_template();
+
         document.querySelector('body').appendChild(this.node);
         this.node.querySelector('.popup23').style.zIndex = Popup23.z_index;
         this.node.querySelector('.popup23-backdrop').style.zIndex = Popup23.z_index - 1;
@@ -48,33 +50,10 @@ class Popup23 {
 
         //***
 
-        if (typeof data.iframe !== 'undefined' && data.iframe.length > 0) {
-            let iframe = document.createElement('iframe');
-            iframe.className = 'popup23-iframe-in-popup';
+        this.set_title(data.title);
 
-            if (typeof data.height !== 'undefined') {
-                iframe.height = data.height;
-            } else {
-                iframe.height = this.get_content_area_height();
-            }
-
-            iframe.frameborder = 0;
-            iframe.allowfullscreen = '';
-            iframe.allow = typeof data.allow !== 'undefined' ? data.allow : '';
-
-            iframe.src = data.iframe;
-            this.clear_content();
-            this.append_content(iframe);
-        }
-
-        //***
-
-        if (typeof data.title !== 'undefined' && data.title.length > 0) {
-            this.set_title(data.title);
-        }
-
-        if (typeof data.help_title !== 'undefined' && data.help_title.length > 0) {
-            if (typeof data.help_link !== 'undefined' && data.help_link.length > 0) {
+        if (typeof data.help_title !== 'undefined') {
+            if (typeof data.help_link !== 'undefined') {
                 this.set_title_info(`<a href="${data.help_link}" class="popup23-btn" target="_blank">${data.help_title}</a>`);
             } else {
                 this.set_title_info(data.help_title);
@@ -125,10 +104,10 @@ class Popup23 {
                        <a href="javascript: void(0);" class="popup23-close"></a>
                    </div>
                    <div class="popup23-content-wrapper">
-                       <div class="popup23-content">${this.start_content}</div>
+                       <div class="popup23-content">${this.data.start_content}</div>
                    </div>
                    <div class="popup23-footer">
-                       <a href="javascript: void(0);" class="button popup23-footer-button-close">${this.close_word}</a>
+                       <a href="javascript: void(0);" class="button popup23-footer-button-close">${this.data.close_word}</a>
                    </div>
                </div>
            </div>
@@ -141,11 +120,11 @@ class Popup23 {
         this.node.remove();
     }
 
-    create_id(prefix = '') {
+    create_id(prefix = 'pop23-') {
         return prefix + Math.random().toString(36).substring(7);
     }
 
-    set_title(title) {
+    set_title(title = '') {
         this.node.querySelector('.popup23-title').innerHTML = title;
     }
 
@@ -171,4 +150,3 @@ class Popup23 {
         return this.node.querySelector('.popup23-content-wrapper').offsetHeight - 50;
     }
 }
-
