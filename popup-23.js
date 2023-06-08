@@ -1,33 +1,35 @@
 /**
  * @summary     Popup23
- * @description popup window
- * @version     1.0.6
+ * @description pure javascript popup window
+ * @version     1.0.7
  * @file        popup-23
  * @author      realmag777
  * @contact     https://pluginus.net/contact-us/
  * @github      https://github.com/realmag777/popup-23
- * @copyright   Copyright 2023 PluginUs.NET
+ * @copyright   Copyright 2020 - 2023 PluginUs.NET
  *
  * This source file is free software, available under the following license: MIT license - https://en.wikipedia.org/wiki/MIT_License
  */
 
 'use strict';
-//29-05-2023
+//08-06-2023
 //1 object is 1 popup
 export default class Popup23 {
-
     constructor(data = {}) {
         if (typeof Popup23.z_index === 'undefined') {
             Popup23.z_index = 15001;
+        } else {
+            ++Popup23.z_index;
         }
 
-        ++Popup23.z_index;
         this.create(data);
     }
 
     create(data = {}) {
         this.data = data;
         this.data.close_word = data.close_word ?? 'Close';
+        this.data.left_button_word = data.left_button_word ?? '';
+        this.data.left_button_link = data.left_button_link ?? '#';
         this.data.start_content = data.start_content ?? 'Loading ...';
 
         this.node = document.createElement('div');
@@ -41,6 +43,8 @@ export default class Popup23 {
         this.node.innerHTML = this.get_template();
 
         document.querySelector('body').appendChild(this.node);
+
+        this.generate_tabs();
         this.node.querySelector('.popup23').style.zIndex = Popup23.z_index;
 
         if (!this.data.hide_backdrop) {
@@ -57,6 +61,8 @@ export default class Popup23 {
                 return false;
             });
         });
+
+        this.init_left_button();
 
         //***
 
@@ -113,12 +119,17 @@ export default class Popup23 {
             let header = this.node.querySelector('.popup23-header');
             header.onmouseover = () => header.style.cursor = 'move';
 
+            let prev_screenX = -1;
+            let prev_screenY = -1;
+
             header.addEventListener('mousedown', e => {
                 can_move = true;
             });
 
             document.addEventListener('mouseup', e => {
                 can_move = false;
+                prev_screenX = -1;
+                prev_screenY = -1;
             });
 
 
@@ -135,15 +146,13 @@ export default class Popup23 {
 
             //+++
 
-            let prev_screenX = -1;
-            let prev_screenY = -1;
             document.addEventListener('mousemove', e => {
 
                 if (can_move) {
 
                     if (prev_screenX !== -1 && e.which === 1 && e.clientX > 0) {
                         let left = this.node.querySelector('.popup23').style.left;
-                        let diff = parseInt(e.screenX) - prev_screenX;
+                        let diff = parseInt(e.screenX) - parseInt(prev_screenX);
                         position.left = `calc(${left} + ${diff}px)`;
                         this.node.querySelector('.popup23').style.setProperty('left', position.left);
                     }
@@ -171,6 +180,12 @@ export default class Popup23 {
         return this.node;
     }
 
+    init_left_button() {
+        if (!this.data.left_button_word) {
+            this.node.querySelector('.popup23-footer-button-left').remove();
+        }
+    }
+
     get_template() {
         return `
         <div class="popup23">
@@ -184,13 +199,76 @@ export default class Popup23 {
                        <div class="popup23-content">${this.data.start_content}</div>
                    </div>
                    <div class="popup23-footer">
-                       <a href="javascript: void(0);" class="button popup23-footer-button-close">${this.data.close_word}</a>
+                       <a href="${this.data.left_button_link}" target="_blank" class="button popup23-footer-button-left">${this.data.left_button_word}</a>
+                       <a href="javascript: void(0);" class="button popup23-footer-button-right popup23-close">${this.data.close_word}</a>
                    </div>
                </div>
            </div>
 
         <div class="popup23-backdrop"></div>
     `;
+    }
+
+    generate_tabs(tabs_data = null) {
+
+        if (!tabs_data) {
+            tabs_data = [
+                {
+                    title: '',
+                    content: this.data.start_content
+                }
+            ];
+        }
+
+        this.data.tabs = tabs_data;
+
+        //+++
+
+        let container = document.createElement('div');
+        container.className = 'popup23-tabset';
+
+        //create tabs
+        this.data.tabs.forEach((tab, index) => {
+            let tab_radio = document.createElement('input');
+            tab_radio.setAttribute('type', 'radio');
+            tab_radio.setAttribute('name', 'popup23-tabset');
+            tab_radio.setAttribute('id', `popup23-tab${index}`);
+            tab_radio.setAttribute('aria-controls', `popup23-tab-section-${index}`);
+
+            if (index === 0) {
+                tab_radio.setAttribute('checked', true);
+            }
+
+            let tab_label = document.createElement('label');
+            tab_label.setAttribute('for', `popup23-tab${index}`);
+            tab_label.innerText = tab.title
+
+            container.appendChild(tab_radio);
+            if (this.data.tabs.length > 1) {
+                container.appendChild(tab_label);
+            }
+        });
+
+
+        let content_container = document.createElement('div');
+        content_container.className = 'popup23-tab-panels';
+        container.appendChild(content_container);
+
+        this.data.tabs.forEach((tab, index) => {
+            let section = document.createElement('section');
+            section.setAttribute('id', `popup23-tab-section-${index}`);
+            section.className = 'popup23-tab-panel';
+
+            section.innerHTML = tab.content;
+            content_container.appendChild(section);
+
+            this.data.tabs[index].container = section;
+        });
+
+        this.node.querySelector('.popup23-content').innerHTML = '';
+        this.node.querySelector('.popup23-content').appendChild(container);
+
+
     }
 
     close() {
@@ -203,6 +281,12 @@ export default class Popup23 {
 
     set_title(title = '') {
         this.node.querySelector('.popup23-title').innerHTML = title;
+
+        if (this.data.title_logo) {
+            this.node.querySelector('.popup23-title').innerHTML = `<span><img src="${this.data.title_logo}" alt=""></span>` + title;
+        } else {
+            this.node.querySelector('.popup23-title').innerHTML = title;
+    }
     }
 
     set_title_info(info) {
@@ -215,21 +299,30 @@ export default class Popup23 {
         }
     }
 
-    set_content(content) {
-        this.node.querySelector('.popup23-content').innerHTML = content;
+    set_content(content, tab_num = 0) {
+        this.get_container(tab_num).innerHTML = content;
         document.dispatchEvent(new CustomEvent('popup23-set-content', {detail: {popup: this, content: content}}));
     }
 
-    clear_content(content = '') {
-        this.node.querySelector('.popup23-content').innerHTML = content;
+    clear_content(tab_num = 0) {
+        this.get_container(tab_num).innerHTML = '';
         document.dispatchEvent(new CustomEvent('popup23-clear-content', {detail: {popup: this, content: content}}));
     }
 
-    append_content(node) {
-        this.node.querySelector('.popup23-content').appendChild(node);
+    append_content(node, tab_num = 0) {
+        this.get_container(tab_num).appendChild(node);
     }
 
-    get_content_area_height() {
-        return this.node.querySelector('.popup23-content-wrapper').offsetHeight - 50;
+    get_container(tab_num = 0) {
+        //return this.node.querySelector('.popup23-content');
+        if (!this.data.tabs) {
+            this.data.tabs = [
+                {
+                    title: '',
+                    content: this.data.start_content
+                }
+            ];
+        }
+        return this.data.tabs[tab_num].container;
     }
 }
