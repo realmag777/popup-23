@@ -1,7 +1,7 @@
 /**
  * @summary     Popup23
  * @description pure javascript popup window
- * @version     1.0.7
+ * @version     1.0.9
  * @file        popup-23
  * @author      Rostislav Sofronov <realmag777>
  * @contact     https://pluginus.net/contact-us/
@@ -27,6 +27,7 @@
     overflow: auto;
     animation: popup23_modal_pop 0.45s 1 cubic-bezier(0.175, 0.885, 0.320, 1.275);
     border: solid 2px #eee;
+    resize: both;
 }
 
 @keyframes popup23_modal_pop {
@@ -79,7 +80,7 @@
     top: 52px;
     left: 0;
     right: 0;
-    bottom: 50px;
+    bottom: 60px;
 }
 
 .popup23-header .popup23-close {
@@ -103,12 +104,12 @@
     top: 0;
     width: 100%;
     height: 100%;
-    font-size: 16px;
+    font-size: 18px;
     color: #ccc;
     text-align: center;
     display: inline-block;
     vertical-align: top;
-    content: "🗙";
+    content: 'x';
     transition: color .25s ease;
 }
 
@@ -123,7 +124,7 @@
     line-height: 53px;
     left: 14px;
     padding: 0;
-    font-size: 21px;
+    font-size: 18px;
     font-weight: bold;
     user-select: none;
     text-transform: uppercase;
@@ -141,9 +142,17 @@
     font-size: 15px;
 }
 
+.popup23-title-info:empty{
+    display: none;
+}
+
 .popup23-title span{
     display: inline-block;
     margin-right: 7px;
+}
+
+.popup23-title span img{
+    vertical-align: baseline;
 }
 
 .popup23-content {
@@ -279,5 +288,31 @@ input:focus-visible + label {
     margin-left: 0 !important;
     margin-bottom: 0 !important;
     margin-top: -27px !important;
+}
+
+.popup23-flash-title-add{
+    color: #2eca8b;
+    text-transform: lowercase;
+}
+
+.popup23-title-top-info{
+    user-select: none;
+    text-align: center;
+    line-height: 10px;
+    font-size: 10px;
+    color: #6d6d6d;
+    border: solid 1px #dfdfdf;
+    border-top: none;
+    width: fit-content;
+    display: block;
+    padding: 4px;
+    margin: 0 auto;
+    margin-top: -1px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.popup23-title-top-info:empty{
+    display: none;
 }
 

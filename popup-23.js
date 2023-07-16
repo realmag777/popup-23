@@ -1,7 +1,7 @@
 /**
  * @summary     Popup23
  * @description pure javascript popup window
- * @version     1.0.7
+ * @version     1.0.9
  * @file        popup-23
  * @author      realmag777
  * @contact     https://pluginus.net/contact-us/
@@ -12,7 +12,7 @@
  */
 
 'use strict';
-//08-06-2023
+//13-07-2023
 //1 object is 1 popup
 export default class Popup23 {
     constructor(data = {}) {
@@ -72,15 +72,29 @@ export default class Popup23 {
             this.set_title_info(data.help_info);
         }
 
+        if (typeof data.title_top_info !== 'undefined') {
+            this.set_title_top_info(data.title_top_info);
+        }
+        /*
+         if (typeof data.width !== 'undefined') {
+         this.node.querySelector('.popup23').style.maxWidth = data.width;
+         this.node.querySelector('.popup23').style.minWidth = data.width;
+         }
+         
+         if (typeof data.height !== 'undefined') {
+         this.node.querySelector('.popup23').style.maxHeight = data.height;
+         this.node.querySelector('.popup23').style.minHeight = data.height;
+         }
+         */
+
         if (typeof data.width !== 'undefined') {
-            this.node.querySelector('.popup23').style.maxWidth = data.width;
-            this.node.querySelector('.popup23').style.minWidth = data.width;
+            this.node.querySelector('.popup23').style.width = data.width;
         }
 
         if (typeof data.height !== 'undefined') {
-            this.node.querySelector('.popup23').style.maxHeight = data.height;
-            this.node.querySelector('.popup23').style.minHeight = data.height;
+            this.node.querySelector('.popup23').style.height = data.height;
         }
+
 
         if (typeof data.left !== 'undefined') {
             this.node.querySelector('.popup23').style.left = data.left;
@@ -133,7 +147,8 @@ export default class Popup23 {
             });
 
 
-            let position = localStorage.getItem(data.id) ? JSON.parse(localStorage.getItem(data.id)) : {};
+            let position = localStorage.getItem(data.title) ? JSON.parse(localStorage.getItem(data.title)) : {};
+            
             if (position.left) {
                 this.node.querySelector('.popup23').style.setProperty('left', position.left);
             }
@@ -169,13 +184,21 @@ export default class Popup23 {
                     if (timer) {
                         clearInterval(timer);
                     }
-                    timer = setTimeout(() => localStorage.setItem(data.id, JSON.stringify(position)), 777);
-
+                    
+                    timer = setTimeout(() => localStorage.setItem(data.title, JSON.stringify(position)), 777);
                 }
 
             });
         }
         //***
+
+        (new ResizeObserver(function (mutations) {
+            document.dispatchEvent(new CustomEvent('popup23-window-size', {detail: {
+                    popup: this,
+                    width: parseInt(mutations[0].borderBoxSize[0].inlineSize),
+                    height: parseInt(mutations[0].borderBoxSize[0].blockSize)
+                }}));
+        })).observe(this.node.querySelector('.popup23'));
 
         return this.node;
     }
@@ -192,6 +215,7 @@ export default class Popup23 {
                <div class="popup23-inner">
                    <div class="popup23-header">
                        <h3 class="popup23-title">&nbsp;</h3>
+                       <div class="popup23-title-top-info"></div>
                        <div class="popup23-title-info">&nbsp;</div>
                        <a href="javascript: void(0);" class="popup23-close"></a>
                    </div>
@@ -267,20 +291,21 @@ export default class Popup23 {
 
         this.node.querySelector('.popup23-content').innerHTML = '';
         this.node.querySelector('.popup23-content').appendChild(container);
-
-
     }
 
     close() {
         this.node.remove();
+        document.dispatchEvent(new CustomEvent('popup23-close', {detail: {popup: this}}));
     }
 
-    create_id(prefix = 'pop23-') {
+    create_id(prefix = 'popup23-') {
         return prefix + Math.random().toString(36).substring(7);
     }
 
-    set_title(title = '') {
-        this.node.querySelector('.popup23-title').innerHTML = title;
+    set_title(title = '', flash_string = '') {
+        this.title = title;
+
+        this.node.querySelector('.popup23-title').innerHTML = title = title + (flash_string ? ` <span class="popup23-flash-title-add">[${flash_string}]</span>` : '');
 
         if (this.data.title_logo) {
             this.node.querySelector('.popup23-title').innerHTML = `<span><img src="${this.data.title_logo}" alt=""></span>` + title;
@@ -289,8 +314,37 @@ export default class Popup23 {
     }
     }
 
+    //for flash information, for examle: 'redrawing ...'
+    set_flash_title(string) {
+        this.set_title(this.title, string);
+    }
+
+    reset_flash_title(string = '') {
+        if (string) {
+            this.set_flash_title(string);
+            setTimeout(() => {
+                this.reset_flash_title();
+            }, 999);
+        } else {
+            let flash = this.node.querySelector('.popup23-title').querySelector('.popup23-flash-title-add');
+            if (flash) {
+                flash.remove();
+            }
+    }
+    }
+
     set_title_info(info) {
         let container = this.node.querySelector('.popup23-title-info');
+        container.innerHTML = '';
+        if (typeof info === 'object') {
+            container.appendChild(info);
+        } else {
+            container.innerHTML = info;
+        }
+    }
+
+    set_title_top_info(info) {
+        let container = this.node.querySelector('.popup23-title-top-info');
         container.innerHTML = '';
         if (typeof info === 'object') {
             container.appendChild(info);
@@ -306,7 +360,7 @@ export default class Popup23 {
 
     clear_content(tab_num = 0) {
         this.get_container(tab_num).innerHTML = '';
-        document.dispatchEvent(new CustomEvent('popup23-clear-content', {detail: {popup: this, content: content}}));
+        document.dispatchEvent(new CustomEvent('popup23-clear-content', {detail: {popup: this, content: ''}}));
     }
 
     append_content(node, tab_num = 0) {
